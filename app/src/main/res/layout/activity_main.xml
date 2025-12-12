@@ -4,66 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.transcend.samplesdk.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context="io.transcend.samplesdk.MainActivity">
 
-    <io.transcend.webview.TranscendWebView
-        android:id="@+id/transcendWebView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-
-    <View
-        android:id="@+id/emptyView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"/>
-
+    <!-- Status Section -->
     <LinearLayout
-        android:id="@+id/contentView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:layout_below="@+id/emptyView">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
 
-            <ImageView
-                android:id="@+id/iconImageView"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:padding="20dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/transcend_logo_main" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/Home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:textColor="@color/white"
-                android:backgroundTint="#3333ff"
-                android:text="Home" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/manageConsentPreferences"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:backgroundTint="#3333ff"
-                android:text="Manage Consent Preferences"
-                android:textColor="@color/white" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/statusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Initializing Transcend..."
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/darker_gray" />
     </LinearLayout>
+
+    <!-- Buttons Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/transcendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Transcend"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:enabled="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/resetButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Reset Transcend"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:enabled="false" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/printConsentButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Print Consent Info"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:enabled="false" />
+    </LinearLayout>
+
+    <!-- Consent Info Section -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/consentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consent info will appear here..."
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:textColor="@android:color/darker_gray"
+            android:padding="12dp"
+            android:background="@android:color/white" />
+    </ScrollView>
+
 </LinearLayout>

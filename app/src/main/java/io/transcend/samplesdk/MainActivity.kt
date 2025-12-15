@@ -1,5 +1,6 @@
 package io.transcend.samplesdk
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var transcendButton: Button
     private lateinit var resetButton: Button
     private lateinit var printConsentButton: Button
+    private lateinit var composeButton: Button
     private lateinit var consentTextView: TextView
     private var bottomSheetDialog: BottomSheetDialog? = null
 
@@ -68,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         transcendButton = findViewById(R.id.transcendButton)
         resetButton = findViewById(R.id.resetButton)
         printConsentButton = findViewById(R.id.printConsentButton)
+        composeButton = findViewById(R.id.composeButton)
         consentTextView = findViewById(R.id.consentTextView)
         
         // Initially disable buttons
@@ -79,6 +82,10 @@ class MainActivity : AppCompatActivity() {
         transcendButton.setOnClickListener { presentTranscend() }
         resetButton.setOnClickListener { resetTranscend() }
         printConsentButton.setOnClickListener { printConsentInfo() }
+        composeButton.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
         
         statusLabel.text = "Initializing Transcend..."
     }

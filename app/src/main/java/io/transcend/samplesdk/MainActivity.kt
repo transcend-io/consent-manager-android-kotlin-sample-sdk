@@ -2,48 +2,42 @@ package io.transcend.samplesdk
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.transcend.webview.TranscendAPI
 import io.transcend.webview.TranscendWebView
-import io.transcend.webview.models.TrackingConsentDetails
 import io.transcend.webview.models.TranscendConfig
-import io.transcend.webview.models.TranscendCoreConfig
-import java.util.HashMap
+//import com.google.android.gms.ads.MobileAds
+import io.transcend.webview.models.ConsentStatus
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val MOBILE_APP_ID = "depop-android"
+        private const val MOBILE_APP_ID = "RideshareTest"
         
         private fun getConsentUrl(isStaging: Boolean): String {
             return if (isStaging) {
-                "https://transcend-cdn.com/cm-test/a51784d8-8ed5-4308-90cd-d846a8ee164a/airgap.js"
+                "https://transcend-cdn.com/cm-test/e622c065-89e6-4b3c-b31f-46428a1e7b86/airgap.js"
             } else {
-                "https://transcend-cdn.com/cm/a51784d8-8ed5-4308-90cd-d846a8ee164a/airgap.js"
+                "https://transcend-cdn.com/cm/e622c065-89e6-4b3c-b31f-46428a1e7b86/airgap.js"
             }
         }
         
         private fun createConfig(isStaging: Boolean): TranscendConfig {
-            val agAttributes = HashMap<String, String>().apply {
-                put("data-prompt", "1")
-                put("data-regime", "US_DNSS")
-            }
-            
             return TranscendConfig.ConfigBuilder(getConsentUrl(isStaging))
-                .defaultAttributes(agAttributes)
                 .destroyOnClose(false)
                 .autoShowUI(false)
                 .mobileAppId(MOBILE_APP_ID)
-                .viewState("AcceptOrRejectAllOrMoreChoices")
                 .build()
         }
     }
@@ -110,6 +104,19 @@ class MainActivity : AppCompatActivity() {
                     
                     // Automatically load consent info on launch
                     printConsentInfo()
+                    TranscendAPI.getSdkConsentStatus(this, "com.google.android.gms:play-services-ads",
+                        { consentStatus ->
+                        if (consentStatus == ConsentStatus.ALLOW || consentStatus == ConsentStatus.TCF_ALLOW) {
+                            Log.d("consent_gate", "firebase allowed")
+                            CoroutineScope(Dispatchers.IO).launch {
+                                // Initialize your non-essential SDK on a background thread.
+                                // MobileAds.initialize(this@MainActivity) {}
+                            }
+                            val imageView =
+                                findViewById<android.widget.ImageView>(R.id.imageView)
+                            imageView.visibility = View.VISIBLE
+                        }
+                    })
                 } else {
                     println("OnViewReady failed with the following error: $errorDetails")
                     statusLabel.text = "Failed to initialize Transcend"
@@ -252,7 +259,6 @@ class MainActivity : AppCompatActivity() {
                 .inflate(R.layout.bottom_sheet_transcend, null)
             
             val container = bottomSheetView.findViewById<android.widget.FrameLayout>(R.id.transcendWebViewContainer)
-
             // Create a dedicated TranscendWebView instance for the bottom sheet
             // This prevents freezing by initializing the WebView immediately
             val webView = TranscendWebView(this@MainActivity).apply {
@@ -289,7 +295,6 @@ class MainActivity : AppCompatActivity() {
                 bottomSheet?.let {
                     val behavior = com.google.android.material.bottomsheet.BottomSheetBehavior.from(it)
                     behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-                    behavior.skipCollapsed = true
                 }
                 // Show consent manager after dialog is shown
                 webView.showConsentManager(null)
@@ -301,7 +306,7 @@ class MainActivity : AppCompatActivity() {
                 webView.destroy()
             }
         }
-        
+
         bottomSheetDialog?.show()
     }
 

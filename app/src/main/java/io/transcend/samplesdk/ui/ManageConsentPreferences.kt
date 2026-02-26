@@ -158,16 +158,16 @@ private fun createTranscendConfig(isStaging: Boolean): TranscendConfig {
         .defaultAttributes(agAttributes)
         .destroyOnClose(false)
         .autoShowUI(false)
-        .mobileAppId("depop-android")
+        .mobileAppId("RideshareTest")
         .viewState("AcceptOrRejectAllOrMoreChoices")
         .build()
 }
 
 private fun getConsentUrl(isStaging: Boolean): String {
     return if (isStaging) {
-        "https://transcend-cdn.com/cm-test/a51784d8-8ed5-4308-90cd-d846a8ee164a/airgap.js"
+        "https://transcend-cdn.com/cm-test/e622c065-89e6-4b3c-b31f-46428a1e7b86/airgap.js"
     } else {
-        "https://transcend-cdn.com/cm/a51784d8-8ed5-4308-90cd-d846a8ee164a/airgap.js"
+        "https://transcend-cdn.com/cm/e622c065-89e6-4b3c-b31f-46428a1e7b86/airgap.js"
     }
 }
 

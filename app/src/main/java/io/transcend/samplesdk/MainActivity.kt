@@ -1,6 +1,8 @@
 package io.transcend.samplesdk
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -255,6 +257,8 @@ class MainActivity : AppCompatActivity() {
         
         // Create bottom sheet dialog
         bottomSheetDialog = BottomSheetDialog(this).apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
             val bottomSheetView = LayoutInflater.from(this@MainActivity)
                 .inflate(R.layout.bottom_sheet_transcend, null)
             
@@ -262,6 +266,9 @@ class MainActivity : AppCompatActivity() {
             // Create a dedicated TranscendWebView instance for the bottom sheet
             // This prevents freezing by initializing the WebView immediately
             val webView = TranscendWebView(this@MainActivity).apply {
+                setBackgroundColor(Color.TRANSPARENT)
+                setBackgroundResource(android.R.color.transparent)
+
                 // Set config first
                 setConfig(config)
                 // Load URL immediately to initialize the WebView (prevents freezing)
@@ -293,7 +300,12 @@ class MainActivity : AppCompatActivity() {
             setOnShowListener {
                 val bottomSheet = findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
                 bottomSheet?.let {
+                    it.setBackgroundColor(Color.TRANSPARENT)
+                    it.layoutParams = it.layoutParams.apply {
+                        height = ViewGroup.LayoutParams.MATCH_PARENT
+                    }
                     val behavior = com.google.android.material.bottomsheet.BottomSheetBehavior.from(it)
+                    behavior.isFitToContents = true
                     behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
                 }
                 // Show consent manager after dialog is shown

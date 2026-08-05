@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.transcend.webview.TranscendAPI
 import io.transcend.webview.TranscendWebView
 import io.transcend.webview.models.TranscendConfig
+//import com.google.android.gms.ads.MobileAds
 import io.transcend.webview.models.ConsentStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
